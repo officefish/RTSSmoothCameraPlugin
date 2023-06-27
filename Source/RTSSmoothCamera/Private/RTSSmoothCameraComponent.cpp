@@ -31,9 +31,10 @@ void URTSSmoothCameraComponent::SetupDefaults()
 
 	CameraPanPerUnit = 3.0f;
 	CameraPitchPerUnit = 1.0f;
-
-	CameraMaximumPitch = -85.0f;
-	CameraMinimumPitch = -20.0f;
+	
+	CameraMinimumPitch =  -88.0f;
+	//CameraMaximumPitch = -20.0f;
+	CameraMaximumPitch = 88.0f;
 
 	MinCameraDistance = 500.0f;
 	MaxCameraDistance = 2500.0f;
@@ -340,8 +341,10 @@ void URTSSmoothCameraComponent::RotateCamera(const float XPercent, const float Y
 	FRotator CurrentRot = CameraSpringArm->GetRelativeRotation().GetNormalized();
 
 	// Update our rotation based on 100% movement equals 180 degrees rotation, limiting pitch to near vertical to limit issues at -90 and 90 degrees
-	CurrentRot = FRotator(FMath::Clamp<float>(CurrentRot.Pitch + (YPercent * 180), CameraMaximumPitch, CameraMinimumPitch),
+	CurrentRot = FRotator(FMath::Clamp<float>(CurrentRot.Pitch + (YPercent * 180), CameraMinimumPitch, CameraMaximumPitch),
 		CurrentRot.Yaw + (XPercent * 180), 0);
+	/*CurrentRot = FRotator(FMath::Clamp<float>(CurrentRot.Pitch + (YPercent * 180), -88.0f, 88.0f),
+		CurrentRot.Yaw + (XPercent * 180), 0);*/
 
 	CameraSpringArm->SetRelativeRotation(CurrentRot);
 }
